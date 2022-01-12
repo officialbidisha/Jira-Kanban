@@ -1,6 +1,6 @@
+import { StoryType } from './../../shared/enums/StoryType';
 import { IssuesService } from './../../shared/services/issues.service';
 import {
-  CdkDragDrop,
   moveItemInArray,
   transferArrayItem,
 } from '@angular/cdk/drag-drop';
@@ -23,6 +23,10 @@ import {
 } from 'rxjs';
 import { User } from 'src/app/shared/interfaces/user.model';
 import { StoryStatus } from 'src/app/shared/enums/StoryStatus';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { v4 as uuidv4 } from 'uuid';
+import { ObjectID } from 'bson';
+
 @Component({
   selector: 'app-board',
   templateUrl: './board.component.html',
@@ -55,6 +59,11 @@ export class BoardComponent implements OnInit, AfterViewInit {
   public isCollapsed: boolean = false;
 
   /**
+   * Form for create issue
+   */
+  public createIssueForm!: FormGroup;
+
+  /**
    * Dropdowns
    */
   public statusOptions: SelectItem[] = [
@@ -64,6 +73,7 @@ export class BoardComponent implements OnInit, AfterViewInit {
     { label: 'Done', value: StoryStatus.DONE },
   ];
 
+  public assigneeOptions: SelectItem[] = [];
   public priorityOptions: SelectItem[] = [
     { label: 'Low', value: 'Low' },
     { label: 'High', value: 'High' },
@@ -74,6 +84,44 @@ export class BoardComponent implements OnInit, AfterViewInit {
     { label: 'Unassigned', value: 'Unassigned' },
   ];
 
+  public storyTypeOptions: SelectItem[] = [
+    { label: StoryType.Bug, value: StoryType.Bug },
+    {
+      label: StoryType.Spike,
+      value: StoryType.Spike,
+    },
+    {
+      label: StoryType.Task,
+      value: StoryType.Task,
+    },
+    {
+      label: StoryType.Story,
+      value: StoryType.Story,
+    },
+  ];
+
+  public storyPointOptions: SelectItem[] = [
+    {
+      label: '2',
+      value: 2,
+    },
+    {
+      label: '8',
+      value: 8,
+    },
+    {
+      label: '5',
+      value: 5,
+    },
+    {
+      label: '13',
+      value: 13,
+    },
+    {
+      label: '21',
+      value: 21,
+    },
+  ];
   public selectedStatus!: any;
   public selectedAssignee!: any;
   public selectedPriority!: any;
@@ -85,12 +133,25 @@ export class BoardComponent implements OnInit, AfterViewInit {
   public displayModal: boolean = false;
   public selectedTitle: string = '';
 
+  public displayCreateIssueModal: boolean = false;
+
   constructor(
     private issueService: IssuesService,
     private messageService: MessageService
   ) {}
 
   ngOnInit() {
+    this.createIssueForm = new FormGroup({
+      title: new FormControl('', Validators.required),
+      description: new FormControl('', Validators.required),
+      priority: new FormControl(null, Validators.required),
+      status: new FormControl(null, Validators.required),
+      assignee: new FormControl(null, Validators.required),
+      type: new FormControl(null, Validators.required),
+      storypoint: new FormControl(null, Validators.required),
+      // message: new FormControl('')
+    });
+
     this.items = [
       { label: 'Projects' },
       { label: 'Jira' },
@@ -98,6 +159,26 @@ export class BoardComponent implements OnInit, AfterViewInit {
     ];
 
     this.populateMemberIssues();
+  }
+
+  onSubmit(form: FormGroup) {
+    let issueObj = {
+      name: form.value.title,
+      description: form.value.description,
+      assignee: form.value.assignee.value,
+      priority: form.value.priority.value,
+      status: StoryStatus.TODO,
+      projectname: 'Design System',
+      title: form.value.title,
+      summary: form.value.description,
+      type: form.value.type.value,
+      storypoint: form.value.storypoint.value,
+      id: new ObjectID().toString(),
+    };
+    this.displayCreateIssueModal = false;
+    this.issueService.createNewIssue(issueObj).subscribe((res) => {
+      this.populateMemberIssues();
+    });
   }
 
   /**
@@ -118,7 +199,7 @@ export class BoardComponent implements OnInit, AfterViewInit {
       res.forEach((element, index) => {
         let n: string[] = [];
         n = element.name.split(' ');
-
+        this.assigneeOptions.push({ label: element.name, value: element.name });
         this.userAvatarList.push({
           id: element.id,
           firstName: n[0],
@@ -137,7 +218,7 @@ export class BoardComponent implements OnInit, AfterViewInit {
 
   /**
    * Opens dialog
-   * @param item 
+   * @param item
    */
   public openDialog(item: any) {
     this.dialogItem = item;
@@ -149,12 +230,16 @@ export class BoardComponent implements OnInit, AfterViewInit {
     this.displayModal = true;
   }
 
+  public openCreateIssueModal() {
+    this.displayCreateIssueModal = true;
+  }
+
   /**
    * Save issue based on id
    * @param void
    * @returns void
    */
-  public saveIssueDetail() : void{
+  public saveIssueDetail(): void {
     let dialogItem = {
       ...this.dialogItem,
       status: this.selectedStatus.value,
@@ -170,7 +255,7 @@ export class BoardComponent implements OnInit, AfterViewInit {
             severity: 'success',
             summary: `The issue ${dialogItem.title} is modified`,
           });
-          this.displayModal=false;
+          this.displayModal = false;
         }
       });
   }
@@ -190,6 +275,11 @@ export class BoardComponent implements OnInit, AfterViewInit {
     return url;
   }
 
+  /**
+   * Generate images dynamically
+   * @param index 
+   * @returns 
+   */
   public appendUrl(index: number): string {
     if (index === 0) {
       return 'assets/images/avatar1.png';
@@ -207,6 +297,11 @@ export class BoardComponent implements OnInit, AfterViewInit {
     }
   }
 
+  /**
+   * Switch the priority dropdown
+   * @param priority 
+   * @returns 
+   */
   public getPriority(priority: string) {
     switch (priority) {
       case 'High': {
@@ -224,6 +319,10 @@ export class BoardComponent implements OnInit, AfterViewInit {
     }
   }
 
+  /**
+   * Render stories based on avatar
+   * @param event 
+   */
   public useAvatarSelectionFilter(event: any) {
     let tempArr: User[] = [];
     event.forEach((ele: User) => {
@@ -251,6 +350,10 @@ export class BoardComponent implements OnInit, AfterViewInit {
     });
   }
 
+  /**
+   * Generate the list based on backend
+   * @param res 
+   */
   public generateList(res: Issue[]) {
     this.toDo = res.filter((result) => result.status === StoryStatus.TODO);
     this.functionalReview = res.filter(
@@ -281,6 +384,9 @@ export class BoardComponent implements OnInit, AfterViewInit {
       });
   }
 
+  /**
+   * Search functionalities
+   */
   public ngAfterViewInit(): void {
     fromEvent(this.input.nativeElement, 'keyup')
       .pipe(
@@ -300,6 +406,10 @@ export class BoardComponent implements OnInit, AfterViewInit {
       .subscribe();
   }
 
+  /**
+   * Drag and drop
+   * @param event 
+   */
   public drop(event: any) {
     if (event.previousContainer === event.container) {
       moveItemInArray(
@@ -338,9 +448,11 @@ export class BoardComponent implements OnInit, AfterViewInit {
     }
   }
 
+  /**
+   * Navigation style update
+   * @param event 
+   */
   public updateStyleForNav(event: boolean) {
     this.isCollapsed = event;
   }
 }
-
-

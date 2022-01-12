@@ -4,6 +4,14 @@
   class="content-section implementation board"
   [ngClass]="{ collapsed: isCollapsed == true }"
 >
+  <button
+    pButton
+    pRipple
+    type="button"
+    label="Create Issue"
+    class="p-button-outlined create-issue"
+    (click)="openCreateIssueModal()"
+  ></button>
   <p-breadcrumb [model]="items"></p-breadcrumb>
   <app-header [title]="title"></app-header>
   <app-avatars-widget
@@ -322,10 +330,18 @@
                   <span class="story">
                     <i class="pi pi-bookmark-fill"></i>
                   </span>
-                  <span class="with-padding">{{dialogItem.type}}-{{dialogItem.id.substring(3,7)}}</span>
+                  <span class="with-padding"
+                    >{{ dialogItem.type }}-{{
+                      dialogItem.id.substring(3, 7)
+                    }}</span
+                  >
                   <span class="feedback-delete">
                     <span class="delete">
-                      <i class="pi pi-trash" style="cursor: pointer;" (click)="deleteIssue()"></i>
+                      <i
+                        class="pi pi-trash"
+                        style="cursor: pointer"
+                        (click)="deleteIssue()"
+                      ></i>
                     </span>
                     <a
                       target="_blank"
@@ -343,7 +359,7 @@
             </div>
           </div>
         </div>
-        <h2>{{selectedTitle}}</h2>
+        <h2>{{ selectedTitle }}</h2>
       </div>
     </ng-template>
 
@@ -394,7 +410,6 @@
       </div>
     </div>
 
-
     <ng-template pTemplate="footer">
       <p-button
         icon="pi pi-check"
@@ -402,6 +417,97 @@
         label="Save"
         styleClass="p-button-text"
         (click)="saveIssueDetail()"
+      ></p-button>
+    </ng-template>
+  </p-dialog>
+
+  <!--Create Issue Modal-->
+  <p-dialog
+    header="Header"
+    class="create-issue-modal"
+    [(visible)]="displayCreateIssueModal"
+    [modal]="true"
+    [style]="{ width: '50vw' }"
+    [draggable]="false"
+    [resizable]="false"
+  >
+    <div class="p-m-0">
+      <form>
+        <form
+          class="create-issue-form"
+          [formGroup]="createIssueForm"
+          (ngSubmit)="onSubmit(createIssueForm)"
+        >
+          <div>
+            <p class="label">Title</p>
+            <input
+              formControlName="title"
+              pInputText
+              type="text"
+              placeholder="Issue Title"
+            />
+          </div>
+          <div>
+            <p class="label">Description</p>
+            <textarea
+              formControlName="description"
+              pInputTextarea
+              type="text"
+              placeholder="Issue Description"
+            ></textarea>
+          </div>
+          <div class="row">
+            <div class="col-6 ">
+              <p class="label">Priority</p>
+              <p-dropdown
+                [options]="priorityOptions"
+                formControlName="priority"
+                optionLabel="value"
+                appendTo="body"
+              ></p-dropdown>
+            </div>
+            <div class="col-6">
+              <p class="label">Story Type</p>
+              <p-dropdown
+                [options]="storyTypeOptions"
+                formControlName="type"
+                optionLabel="value"
+                appendTo="body"
+              ></p-dropdown>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-6">
+              <p class="label">Story Point</p>
+              <p-dropdown
+                [options]="storyPointOptions"
+                formControlName="storypoint"
+                optionLabel="value"
+                appendTo="body"
+              ></p-dropdown>
+            </div>
+            <div class="col-6">
+              <p class="label">Assignee</p>
+              <p-dropdown
+                [options]="assigneeOptions"
+                formControlName="assignee"
+                optionLabel="value"
+                appendTo="body"
+              ></p-dropdown>
+            </div>
+          </div>
+
+          <button type="submit">Send</button>
+        </form>
+      </form>
+    </div>
+    <ng-template pTemplate="footer">
+      <p-button
+        icon="pi pi-check"
+        (click)="displayCreateIssueModal = false"
+        label="Ok"
+        styleClass="p-button-text"
       ></p-button>
     </ng-template>
   </p-dialog>

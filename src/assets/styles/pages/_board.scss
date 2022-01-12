@@ -115,11 +115,18 @@
       }
     }
   }
+  .create-issue{
+    position: absolute;
+    top: 36px;
+    height: 34px;
+    right: 20px;
+  }
   .board-container {
     height: inherit;
     display: flex;
     flex-grow: 1;
     border: 0 solid #e2e8f0;
+
     .board-middle-container {
       display: flex;
       .todo-container {
@@ -327,5 +334,29 @@
       }
     }
     
+  }
+
+  .create-issue-form{
+    input{
+      height: 34px;
+      margin-bottom: 10px;
+      width: 100%;
+    }
+    textarea{
+      width: 100%;
+    }
+    .label{
+      font-size: 12px;
+      margin-bottom: 10px;
+      display: block
+    }
+    .p-dropdown{
+      height: 34px;
+      margin-bottom: 10px;
+      width: 100%;
+      .p-dropdown-label{
+        padding: 5px 10px;
+      }
+    }
   }
 }
