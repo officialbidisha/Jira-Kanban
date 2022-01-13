@@ -1,9 +1,7 @@
+import { Priority } from './../../shared/enums/Priority';
 import { StoryType } from './../../shared/enums/StoryType';
 import { IssuesService } from './../../shared/services/issues.service';
-import {
-  moveItemInArray,
-  transferArrayItem,
-} from '@angular/cdk/drag-drop';
+import { moveItemInArray, transferArrayItem } from '@angular/cdk/drag-drop';
 import {
   AfterViewInit,
   Component,
@@ -73,11 +71,11 @@ export class BoardComponent implements OnInit, AfterViewInit {
     { label: 'Done', value: StoryStatus.DONE },
   ];
 
-  public assigneeOptions: SelectItem[] = [];
+  public assigneeOptions: SelectItem[] = [{ label: '', value: null }];
   public priorityOptions: SelectItem[] = [
-    { label: 'Low', value: 'Low' },
-    { label: 'High', value: 'High' },
-    { label: 'Medium', value: 'Medium' },
+    { label: Priority.LOW, value: Priority.LOW },
+    { label: Priority.HIGH, value: Priority.HIGH },
+    { label: Priority.MEDIUM, value: Priority.MEDIUM },
   ];
 
   public countries: SelectItem[] = [
@@ -85,17 +83,17 @@ export class BoardComponent implements OnInit, AfterViewInit {
   ];
 
   public storyTypeOptions: SelectItem[] = [
-    { label: StoryType.Bug, value: StoryType.Bug },
+    { label: 'Bug', value: StoryType.Bug },
     {
-      label: StoryType.Spike,
+      label: 'Spike',
       value: StoryType.Spike,
     },
     {
-      label: StoryType.Task,
+      label: 'Task',
       value: StoryType.Task,
     },
     {
-      label: StoryType.Story,
+      label: 'Story',
       value: StoryType.Story,
     },
   ];
@@ -134,6 +132,9 @@ export class BoardComponent implements OnInit, AfterViewInit {
   public selectedTitle: string = '';
 
   public displayCreateIssueModal: boolean = false;
+  public isSubmitted: boolean = false;
+  public isLoading: boolean = true;
+  public isUserListLoading: boolean = true;
 
   constructor(
     private issueService: IssuesService,
@@ -141,15 +142,14 @@ export class BoardComponent implements OnInit, AfterViewInit {
   ) {}
 
   ngOnInit() {
+    this.populateMemberIssues();
     this.createIssueForm = new FormGroup({
       title: new FormControl('', Validators.required),
       description: new FormControl('', Validators.required),
       priority: new FormControl(null, Validators.required),
-      status: new FormControl(null, Validators.required),
       assignee: new FormControl(null, Validators.required),
       type: new FormControl(null, Validators.required),
       storypoint: new FormControl(null, Validators.required),
-      // message: new FormControl('')
     });
 
     this.items = [
@@ -157,11 +157,13 @@ export class BoardComponent implements OnInit, AfterViewInit {
       { label: 'Jira' },
       { label: 'Design System' },
     ];
-
-    this.populateMemberIssues();
   }
 
-  onSubmit(form: FormGroup) {
+  public onSubmit(form: FormGroup) {
+    this.isSubmitted = true;
+    if (!this.createIssueForm.valid) {
+      return;
+    }
     let issueObj = {
       name: form.value.title,
       description: form.value.description,
@@ -176,9 +178,21 @@ export class BoardComponent implements OnInit, AfterViewInit {
       id: new ObjectID().toString(),
     };
     this.displayCreateIssueModal = false;
+    this.createIssueForm.reset();
+    this.isSubmitted = false;
     this.issueService.createNewIssue(issueObj).subscribe((res) => {
       this.populateMemberIssues();
+      this.messageService.add({
+        severity: 'success',
+        summary: 'New Issue has been added',
+      });
     });
+  }
+
+  public resetCloseDialog() {
+    this.createIssueForm.reset();
+    this.displayCreateIssueModal = false;
+    this.isSubmitted = false;
   }
 
   /**
@@ -187,6 +201,7 @@ export class BoardComponent implements OnInit, AfterViewInit {
    * @returns void
    */
   public populateMemberIssues() {
+    this.isLoading = true;
     this.userAvatarList = [];
     this.countries = [];
     this.countries = [{ label: 'Unassigned', value: 'Unassigned' }];
@@ -194,6 +209,7 @@ export class BoardComponent implements OnInit, AfterViewInit {
     this.issueService.getIssues().subscribe((res) => {
       this.totalArr = res;
       this.generateList(res);
+      this.isLoading = false;
     });
     this.issueService.getMember().subscribe((res) => {
       res.forEach((element, index) => {
@@ -207,12 +223,14 @@ export class BoardComponent implements OnInit, AfterViewInit {
           avatarUrl: this.appendUrl(index),
         });
       });
+      this.assigneeOptions.splice(0, 1);
       this.userAvatarList.forEach((user) => {
         this.countries.push({
           label: user.firstName + ' ' + user.lastName,
           value: user.firstName + ' ' + user.lastName,
         });
       });
+      this.isUserListLoading = false;
     });
   }
 
@@ -277,8 +295,8 @@ export class BoardComponent implements OnInit, AfterViewInit {
 
   /**
    * Generate images dynamically
-   * @param index 
-   * @returns 
+   * @param index
+   * @returns
    */
   public appendUrl(index: number): string {
     if (index === 0) {
@@ -299,8 +317,8 @@ export class BoardComponent implements OnInit, AfterViewInit {
 
   /**
    * Switch the priority dropdown
-   * @param priority 
-   * @returns 
+   * @param priority
+   * @returns
    */
   public getPriority(priority: string) {
     switch (priority) {
@@ -321,7 +339,7 @@ export class BoardComponent implements OnInit, AfterViewInit {
 
   /**
    * Render stories based on avatar
-   * @param event 
+   * @param event
    */
   public useAvatarSelectionFilter(event: any) {
     let tempArr: User[] = [];
@@ -352,7 +370,7 @@ export class BoardComponent implements OnInit, AfterViewInit {
 
   /**
    * Generate the list based on backend
-   * @param res 
+   * @param res
    */
   public generateList(res: Issue[]) {
     this.toDo = res.filter((result) => result.status === StoryStatus.TODO);
@@ -377,7 +395,6 @@ export class BoardComponent implements OnInit, AfterViewInit {
           this.messageService.add({
             severity: 'success',
             summary: `Issue - ${this.dialogItem.title} is deleted`,
-            detail: 'Message Content',
           });
           this.displayModal = false;
         }
@@ -408,7 +425,7 @@ export class BoardComponent implements OnInit, AfterViewInit {
 
   /**
    * Drag and drop
-   * @param event 
+   * @param event
    */
   public drop(event: any) {
     if (event.previousContainer === event.container) {
@@ -450,7 +467,7 @@ export class BoardComponent implements OnInit, AfterViewInit {
 
   /**
    * Navigation style update
-   * @param event 
+   * @param event
    */
   public updateStyleForNav(event: boolean) {
     this.isCollapsed = event;

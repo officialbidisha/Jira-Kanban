@@ -24,6 +24,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import {DropdownModule} from 'primeng/dropdown';
 import {ToastModule} from 'primeng/toast';
 import {InputTextModule} from 'primeng/inputtext';
+import {SkeletonModule} from 'primeng/skeleton';
 @NgModule({
   declarations: [
     AppComponent,
@@ -50,8 +51,8 @@ import {InputTextModule} from 'primeng/inputtext';
     FormsModule,
     ReactiveFormsModule,
     InputTextModule,
-    InputTextareaModule
-
+    InputTextareaModule,
+    SkeletonModule
   ],
   providers: [MessageService],
   bootstrap: [AppComponent]

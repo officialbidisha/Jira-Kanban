@@ -4,9 +4,12 @@
   &.collapsed {
     padding-left: 95px;
     transition: 5ms;
-    .todo-container{
-      width: 26% ;
+    .todo-container {
+      width: 26%;
     }
+  }
+  .avatar-skeleton{
+    display: flex;
   }
   .p-breadcrumb.p-component {
     background: #17171e;
@@ -115,7 +118,7 @@
       }
     }
   }
-  .create-issue{
+  .create-issue {
     position: absolute;
     top: 36px;
     height: 34px;
@@ -177,6 +180,10 @@
         margin-left: auto;
       }
     }
+    .rectangular-skeleton{
+      margin-bottom: 10px;
+    }
+
   }
   .issue-detail {
     width: 96%;
@@ -233,13 +240,13 @@
     /* width */
     ::-webkit-scrollbar {
       width: 10px;
-      border-radius: 10px;
+      border-radius: 2px;
     }
 
     /* Track */
     ::-webkit-scrollbar-track {
-      background: #f1f1f1;
-      border-radius: 5px;
+      background: #22272d;
+      border-radius: 2px;
     }
 
     /* Handle */
@@ -261,7 +268,7 @@
       }
     }
 
-    .p-dialog-content{
+    .p-dialog-content {
       .issue-detail-card {
         margin-left: 30px;
         .dialog-dropdown {
@@ -290,7 +297,7 @@
               }
             }
           }
-          .p-dropdown-clear-icon{
+          .p-dropdown-clear-icon {
             right: 8px;
             color: #112240;
             font-size: 11px;
@@ -306,7 +313,7 @@
             font-weight: bold;
           }
         }
-  
+
         .assignee {
           margin-bottom: 15px;
           .assignee-one {
@@ -326,36 +333,54 @@
           }
         }
       }
-      .p-button-raised{
+      .p-button-raised {
         font-size: 12px;
         /* width: 70px; */
         height: 27px;
         border-radius: 20px;
       }
+      padding: 8px 1.5rem 2rem 1.5rem;
     }
-    
+
+    .cancel-button {
+      .p-button {
+        height: 34px;
+      }
+    }
   }
 
-  .create-issue-form{
-    input{
+  .create-issue-form {
+    input {
       height: 34px;
       margin-bottom: 10px;
       width: 100%;
     }
-    textarea{
+    textarea {
       width: 100%;
     }
-    .label{
-      font-size: 12px;
+    .label {
+      font-size: 14px;
       margin-bottom: 10px;
-      display: block
+      display: block;
     }
-    .p-dropdown{
+    .p-dropdown {
       height: 34px;
       margin-bottom: 10px;
       width: 100%;
-      .p-dropdown-label{
+      .p-dropdown-label {
         padding: 5px 10px;
+      }
+    }
+    .error-label {
+      font-size: 10px;
+      color: #ff8383;
+    }
+
+    .submit-issue {
+      position: absolute;
+      bottom: 24px;
+      .p-button {
+        height: 34px;
       }
     }
   }
