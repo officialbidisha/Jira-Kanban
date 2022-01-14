@@ -27,7 +27,7 @@ export class IssuesService {
    * @returns
    */
   public getIssues(): Observable<Issue[]> {
-    return this.http.get<Issue[]>('http://ec2-3-137-139-184.us-east-2.compute.amazonaws.com:8080/issueses', this.requestOptions);
+    return this.http.get<Issue[]>(this.baseUrl+'Issue/', this.requestOptions);
     // return this.http.get<Issue[]>(this.baseUrl + 'Issue/', this.requestOptions);
   }
 
