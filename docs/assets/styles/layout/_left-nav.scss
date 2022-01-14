@@ -1,0 +1,198 @@
+.left-nav {
+  .side-bar {
+    width: 272px;
+    height: 100%;
+    padding: 2.1rem 1.2rem;
+    background-color: #17171e;
+    position: fixed;
+    transition: all 0.5s ease;
+    top: 0;
+    margin: 0;
+    border: 0;
+    font: inherit;
+    vertical-align: baseline;
+    border-right: 1.3px solid #3634349c;
+
+    .logo-name-wrapper {
+      .logo-name {
+        display: flex;
+        align-items: center;
+      }
+      .logo-name-description-container {
+        .logo-name__name {
+          margin-left: 0.9rem;
+          white-space: nowrap;
+          color: #e5e5e5;
+        }
+        .logo-name__description {
+          display: block;
+          margin-left: 0.9rem;
+          white-space: nowrap;
+          text-overflow: ellipsis;
+          overflow: hidden;
+          width: inherit;
+          color: #e5e5e5;
+          font-size: 12px;
+        }
+        width: inherit;
+      }
+      .logo-name__button {
+        position: absolute;
+        top: 50%;
+        right: 0;
+        font-size: 1.8rem;
+        transform: translateY(-50%);
+        border: none;
+        cursor: pointer;
+        height: 26px;
+        width: 26px;
+        border-radius: 50%;
+        background: rgba(255, 255, 255, 0.15);
+        left: 237px;
+        #logo-name__icon {
+          position: relative;
+          bottom: 16px;
+          color: white;
+          font-size: 14px;
+        }
+      }
+      position: relative;
+      margin-bottom: 2.1rem;
+      display: flex;
+      font-size: 1.2rem;
+      width: calc(100% - 23px);
+    }
+
+    .features-list {
+      padding-bottom: 1rem;
+      border-bottom: 1px solid #292932;
+      list-style: none;
+      padding-left: 0px;
+    }
+
+    .features-item {
+      display: flex;
+      align-items: center;
+      position: relative;
+      padding: 0.5rem 0.9rem;
+      margin-bottom: 1.1rem;
+      color: #b5b5be;
+      cursor: pointer;
+      transition: 0.5s ease;
+      text-decoration: none;
+    }
+    .features-item::before {
+      transition: 0.5s ease;
+      content: "";
+      position: absolute;
+      left: -1.2rem;
+      height: 100%;
+      border-left: 3px solid #fafafb;
+      border-radius: 2px;
+      opacity: 0;
+      visibility: hidden;
+    }
+
+    .features-item:hover,
+    .feature-item:active {
+      color: #fafafb;
+      transition: 0.5s ease;
+    }
+
+
+
+    .features-item:hover::before,
+    .feature-item:active::before {
+      opacity: 1;
+      visibility: unset;
+    }
+
+    .features-item.active{
+      color: #fafafb;
+      transition: 0.5s ease;
+      &::before{
+        opacity: 1;
+        visibility: unset;
+      }
+    }
+
+    .features-item-icon {
+      font-size: 2rem;
+    }
+
+    .features-item-text {
+      margin-left: 1.5rem;
+      transition: opacity 0.6s ease;
+      opacity: 1;
+    }
+
+    .tooltip {
+      position: absolute;
+      top: -2.1rem;
+      left: 56px;
+      background-color: white;
+      color: #17171e;
+      border-radius: 0.4rem;
+      padding: 0.5rem 0.9rem;
+      font-size: 14px;
+      transition: 0s;
+      opacity: 0;
+      display: none;
+      box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+    }
+  }
+
+  .side-bar.collapsed .message:hover .tooltip,
+  .features-item:hover .tooltip {
+    top: 50%;
+    transform: translateY(-50%);
+    transition: all 0.5s ease;
+    opacity: 1;
+  }
+
+  .side-bar.collapsed {
+    width: 6.4rem;
+  }
+
+  .side-bar.collapsed .tooltip {
+    display: block;
+  }
+
+  .side-bar.collapsed .logo-name {
+    pointer-events: none;
+  }
+
+  .side-bar.collapsed .features-item-text {
+    opacity: 0;
+    pointer-events: none;
+  }
+
+  .side-bar.collapsed {
+    width: 74px;
+    display: unset;
+    .logo-name-wrapper {
+      .logo-name-description-container {
+        .logo-name__name,
+        .logo-name__description {
+          display: none;
+        }
+        width: inherit;
+      }
+      .logo-name__button {
+        left: 42px;
+        transition: all 0.5s ease;
+        #logo-name__icon {
+          transform: rotate(-180deg);
+        }
+      }
+    }
+  }
+  .side-bar {
+    .logo-name-wrapper {
+      .logo-name__button {
+        left: 240px;
+        transition: all 0.5s ease;
+      }
+    }
+  }
+}

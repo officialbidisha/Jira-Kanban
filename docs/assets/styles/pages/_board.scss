@@ -1,0 +1,387 @@
+.board {
+  padding-left: 280px;
+  height: auto;
+  &.collapsed {
+    padding-left: 95px;
+    transition: 5ms;
+    .todo-container {
+      width: 26%;
+    }
+  }
+  .avatar-skeleton{
+    display: flex;
+  }
+  .p-breadcrumb.p-component {
+    background: #17171e;
+    border: none;
+    padding-left: 0;
+    padding-bottom: 4px;
+  }
+  .header {
+    h1 {
+      color: white;
+      font-size: 26px;
+    }
+  }
+  .story {
+    padding: 1px 5px;
+    background: #63ba3c;
+    border-radius: 2px;
+    .pi-bookmark-fill {
+      color: white;
+      font-size: 12px;
+    }
+  }
+  .bug {
+    padding: 1px 5px;
+    background: red;
+    border-radius: 2px;
+    .pi-circle-fill {
+      font-size: 12px;
+      color: white;
+    }
+  }
+  .task {
+    padding: 1px 5px;
+    background-color: #4bade8;
+    border-radius: 2px;
+    .pi-check {
+      color: white;
+      font-size: 12px;
+      font-weight: 800;
+    }
+  }
+  .spike {
+    padding: 1px 5px;
+    .pi-arrow-up-right {
+      color: rgb(255, 77, 77);
+    }
+  }
+  .high {
+    padding: 0 5px;
+    .pi-arrow-up {
+      color: #ee7677;
+    }
+  }
+  .medium {
+    padding: 0 5px;
+    .pi-arrow-up {
+      color: #ed9b5f;
+    }
+  }
+  .low {
+    padding: 0 5px;
+    .pi-arrow-up {
+      transform: rotate(180deg);
+      color: #57a55a;
+    }
+  }
+  .example-box {
+    margin-bottom: 5px;
+    .issue-wrap {
+      touch-action: manipulation;
+      cursor: grab;
+      display: flex;
+      flex-grow: 1;
+      border: 0 solid #e2e8f0;
+      .issue {
+        .text-dark {
+          --text-opacity: 1;
+          color: rgba(rgba(white, 1), var(--text-opacity)) !important;
+        }
+        .flex-items {
+          .avatar {
+          }
+          .story-type {
+            text-transform: uppercase;
+            margin-left: 0.75rem;
+          }
+          display: flex;
+          align-items: center;
+          margin-left: 0.25rem;
+        }
+
+        color: white;
+        display: flex;
+        flex-grow: 1;
+        flex-direction: column;
+        border-radius: 0.125rem;
+        --bg-opacity: 1;
+        background-color: black;
+        transition-property: all;
+        transition-duration: 0.1s;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        user-select: none;
+        padding: 10px;
+        box-shadow: 0 1px 2px 0 rgb(9 30 66 / 25%);
+      }
+    }
+  }
+  .create-issue {
+    position: absolute;
+    top: 36px;
+    height: 34px;
+    right: 20px;
+  }
+  .board-container {
+    height: inherit;
+    display: flex;
+    flex-grow: 1;
+    border: 0 solid #e2e8f0;
+
+    .board-middle-container {
+      display: flex;
+      .todo-container {
+        margin-right: 0.5rem;
+        display: flex;
+        flex-direction: column;
+        border-radius: 0.125rem;
+        --bg-opacity: 1;
+        background-color: rgba(#3a3e43, var(--bg-opacity));
+        flex-shrink: 0;
+        width: calc(100% / 4 - 8px);
+        min-height: 400px;
+        min-width: 237px;
+        .status-list {
+          .status-text {
+            .lowercase-text {
+              text-transform: lowercase;
+              font-size: 0.8125rem;
+            }
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            text-transform: uppercase;
+            color: #9fabc0;
+            font-size: 0.8125rem;
+            padding: 0.75rem;
+            padding-bottom: 1rem;
+          }
+          .cdk-drop-list {
+            padding-left: 0.5rem;
+            height: 100%;
+          }
+          margin-right: 0.5rem;
+          display: flex;
+          flex-direction: column;
+          height: 100%;
+          border-radius: 0.125rem;
+          --bg-opacity: 1;
+          // background-color: #f4f5f7;
+          // background-color: rgba(244, 245, 247, var(--bg-opacity));
+          background-color: #393c43;
+          flex-shrink: 0;
+          padding-bottom: 20px;
+        }
+      }
+      .type-priority {
+        float: right;
+        margin-left: auto;
+      }
+    }
+    .rectangular-skeleton{
+      margin-bottom: 10px;
+    }
+
+  }
+  .issue-detail {
+    width: 96%;
+    margin-top: 10px;
+    .full-width {
+      width: 100%;
+      padding-left: 1em;
+      height: 100%;
+      .text-dark {
+        color: rgba(23, 43, 77, 1);
+        .type-dropdown {
+          margin-left: -12px;
+          .with-padding {
+            padding-left: 0.5rem;
+            color: white;
+            text-transform: uppercase;
+          }
+        }
+      }
+      .feedback-delete {
+        .feedback {
+          float: right;
+          padding: 0px 5px;
+          background: #00000085;
+          border-radius: 4px;
+          position: relative;
+          .pi-github {
+            margin-top: 4px;
+          }
+          .with-padding {
+            font-size: 12px;
+            text-transform: capitalize;
+            position: relative;
+            bottom: 2px;
+          }
+          margin-right: 0.5rem;
+        }
+        .delete {
+          float: right;
+          padding: 0px 5px;
+          background: #00000085;
+          border-radius: 4px;
+          position: relative;
+          .pi-trash {
+            color: white;
+          }
+        }
+      }
+    }
+  }
+
+  //dialog
+  .p-dialog {
+    /* width */
+    ::-webkit-scrollbar {
+      width: 10px;
+      border-radius: 2px;
+    }
+
+    /* Track */
+    ::-webkit-scrollbar-track {
+      background: #22272d;
+      border-radius: 2px;
+    }
+
+    /* Handle */
+    ::-webkit-scrollbar-thumb {
+      background: #888;
+      border-radius: 10px;
+    }
+
+    /* Handle on hover */
+    ::-webkit-scrollbar-thumb:hover {
+      background: #555;
+    }
+
+    .p-dialog-header {
+      .p-dialog-header-close {
+        position: absolute;
+        top: 30px;
+        right: 12px;
+      }
+    }
+
+    .p-dialog-content {
+      .issue-detail-card {
+        margin-left: 30px;
+        .dialog-dropdown {
+          .p-dropdown.p-component {
+            background: #f4f5f7d6;
+            height: 26px;
+            justify-content: center;
+            align-items: center;
+            .p-dropdown-label {
+              font-size: 13px;
+              color: rgba(66, 82, 110, 1);
+              font-weight: 600;
+              text-transform: uppercase;
+            }
+            .p-dropdown-trigger {
+              display: none;
+            }
+          }
+          .p-dropdown-panel .p-dropdown-items:not(.p-dropdown-virtualscroll) {
+            padding: 0.2rem 0 !important;
+          }
+          .p-dropdown-panel {
+            .p-dropdown-items {
+              .p-dropdown-item {
+                padding: 0.45rem 1.25rem;
+              }
+            }
+          }
+          .p-dropdown-clear-icon {
+            right: 8px;
+            color: #112240;
+            font-size: 11px;
+            top: 14px;
+          }
+        }
+        .status {
+          margin-bottom: 15px;
+          .status-one {
+            text-transform: uppercase;
+            font-size: 12px;
+            margin-bottom: 4px;
+            font-weight: bold;
+          }
+        }
+
+        .assignee {
+          margin-bottom: 15px;
+          .assignee-one {
+            text-transform: uppercase;
+            font-size: 12px;
+            margin-bottom: 4px;
+            font-weight: bold;
+          }
+        }
+        .priority {
+          margin-bottom: 15px;
+          .priority-one {
+            text-transform: uppercase;
+            font-size: 12px;
+            margin-bottom: 4px;
+            font-weight: bold;
+          }
+        }
+      }
+      .p-button-raised {
+        font-size: 12px;
+        /* width: 70px; */
+        height: 27px;
+        border-radius: 20px;
+      }
+      padding: 8px 1.5rem 2rem 1.5rem;
+    }
+
+    .cancel-button {
+      .p-button {
+        height: 34px;
+      }
+    }
+  }
+
+  .create-issue-form {
+    input {
+      height: 34px;
+      margin-bottom: 10px;
+      width: 100%;
+    }
+    textarea {
+      width: 100%;
+    }
+    .label {
+      font-size: 14px;
+      margin-bottom: 10px;
+      display: block;
+    }
+    .p-dropdown {
+      height: 34px;
+      margin-bottom: 10px;
+      width: 100%;
+      .p-dropdown-label {
+        padding: 5px 10px;
+      }
+    }
+    .error-label {
+      font-size: 10px;
+      color: #ff8383;
+    }
+
+    .submit-issue {
+      position: absolute;
+      bottom: 24px;
+      .p-button {
+        height: 34px;
+      }
+    }
+  }
+}

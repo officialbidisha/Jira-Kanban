@@ -1,0 +1,12 @@
+/* You can add global styles to this file, and also import other style files */
+body{
+    margin:0;
+    background: #17171e;
+}
+html, body{
+    height: 100%;
+}
+
+@import "../styles/layout/left-nav";
+@import "../styles/pages/board";
+@import "../styles/layout/avatars-widget";
