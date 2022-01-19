@@ -1,11 +1,11 @@
-.ar-avatars-widget {
+.widget-of-avatar {
   display: flex;
   position: relative;
 
-  .ar-avatar {
+  .avatar {
     width: 38px;
     height: 38px;
-    border: 2px solid white;
+    border: 2px solid black;
     border-radius: 50%;
     cursor: pointer;
     position: relative;
@@ -15,20 +15,20 @@
       z-index: 1;
     }
 
-    &.ar-selected {
+    &.selected-avatar {
       border-color: white;
       span {
         .tick-icon {
           visibility: visible !important;
         }
       }
-      &.ar-image > span {
-        background-color: rgba(#0157ff, 0.6);
+      &.image-avatar > span {
+        background-color: rgb(61 62 62 / 86%);
       }
-      &.ar-text,
-      &.ar-image {
+      &.text-avatar,
+      &.image-avatar {
         .inner {
-          background-color: rgba(#0157ff, 0.5);
+          background-color: rgb(61 62 62 / 86%);
         }
       }
     }
@@ -37,7 +37,7 @@
       margin-left: -7px;
     }
 
-    &.ar-image > span {
+    &.image-avatar > span {
       background-position: center center;
       background-repeat: no-repeat;
       background-size: cover;
@@ -56,15 +56,16 @@
         border: none;
       }
       .tick-icon {
-        position: absolute;
-        top: 5px;
-        left: 6px;
-        color: white;
         visibility: hidden;
+        position: absolute;
+        top: 7px;
+        left: 9px;
+        font-weight: bold;
+        color: #ededed;
       }
     }
 
-    &.ar-text {
+    &.text-avatar {
       display: flex;
       align-items: center;
       justify-content: center;
@@ -175,17 +176,17 @@
               border-radius: 20px 0px 0px 20px;
               .overlay-dropdown {
                 span,
-                .ar-avatar-text {
+                .ar-avattext-avatar {
                   .tick-icon {
                     visibility: visible;
                   }
                 }
-                .ar-avatar-text {
+                .ar-avattext-avatar {
                   .inner {
                     background-color: rgba(#0157ff, 0.5);
                   }
                 }
-                .ar-avatar-image {
+                .ar-avatimage-avatar {
                   .inner {
                     background-color: rgba(#0157ff, 0.5);
                   }
@@ -237,7 +238,7 @@
                 width: inherit;
                 image-rendering: -webkit-optimize-contrast;
                 position: relative;
-                &.ar-avatar-text {
+                &.ar-avattext-avatar {
                   background: #111d3b;
                   justify-content: center;
                   align-items: center;
@@ -246,7 +247,7 @@
                   font-weight: 700;
                   font-size: 14px;
                 }
-                &.ar-avatar-image {
+                &.ar-avatimage-avatar {
                   .inner {
                     top: -2px;
                     left: -2px;

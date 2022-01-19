@@ -1,11 +1,11 @@
-<div class="ar-avatars-widget">
-  <ng-container *ngFor="let user of visibleUsers">
+<div class="widget-of-avatar">
+  <ng-container *ngFor="let user of usersVisible">
     <div
-      class="ar-avatar"
+      class="avatar"
       [ngClass]="{
-        'ar-image': !!user.avatarUrl,
-        'ar-text': !user.avatarUrl,
-        'ar-selected': isUserSelected(user)
+        'image-avatar': !!user.avatarUrl,
+        'text-avatar': !user.avatarUrl,
+        'selected-avatar': isUserSelected(user)
       }"
       (click)="toggleUserSelection(user)"
     >
@@ -32,7 +32,7 @@
           [pTooltip]="user.firstName + '' + user.lastName"
           tooltipPosition="bottom"
           tooltipStyleClass="avatar-tooltip"
-          >{{ getUserInitials(user) }}
+          >{{ getInitialsOfUser(user) }}
           <div class="inner"><i class="pi pi-check tick-icon"></i></div>
         </span>
       </ng-template>
@@ -40,7 +40,7 @@
   </ng-container>
   <div
     *ngIf="nonVisibleAvatarCount > 0"
-    class="ar-avatar ar-text non-visible-count"
+    class="avatar text-avatar non-visible-count"
     [ngClass]="{ 'ar-selection': checkNonVisibleUserSelection() }"
   >
     <span (click)="op.toggle($event)">
@@ -57,7 +57,7 @@
         <div class="overlay-dropdown">
           <span
             *ngIf="user.avatarUrl"
-            class="ar-avatar-image"
+            class="ar-avatimage-avatar"
             role="img"
             [attr.aria-label]="user.fullName"
             [ngStyle]="{
@@ -69,8 +69,8 @@
             </div>
           </span>
 
-          <span *ngIf="!user.avatarUrl" class="ar-avatar-text">
-            {{ getUserInitials(user) }}
+          <span *ngIf="!user.avatarUrl" class="ar-avattext-avatar">
+            {{ getInitialsOfUser(user) }}
             <div class="inner"><i class="pi pi-check tick-icon"></i></div>
           </span>
         </div>

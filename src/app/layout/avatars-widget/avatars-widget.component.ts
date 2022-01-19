@@ -15,7 +15,7 @@ export class AvatarsWidgetComponent implements OnInit {
   @Output()
   public selectionChange = new EventEmitter<User[]>();
 
-  public get visibleUsers(): User[] {
+  public get usersVisible(): User[] {
     if (this.users?.length > this.visibleAvatarCount) {
       return this.users.slice(0, this.visibleAvatarCount);
     }
@@ -35,7 +35,7 @@ export class AvatarsWidgetComponent implements OnInit {
       : 0;
   }
 
-  public getUserInitials(user: User): string {
+  public getInitialsOfUser(user: User): string {
     return user?.firstName!.substring(0, 1) + user?.lastName?.substring(0, 1);
   }
 
